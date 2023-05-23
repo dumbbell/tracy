@@ -362,8 +362,13 @@ private:
             throw NotTracyDump();
         }
 
+#if defined(stat64)
         struct stat64 buf;
         if( stat64( fn, &buf ) == 0 )
+#else
+        struct stat buf;
+        if( stat( fn, &buf ) == 0 )
+#endif
         {
             m_dataSize = buf.st_size;
         }
